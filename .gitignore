@@ -1,0 +1,22 @@
+# deps
+node_modules/
+
+# build
+dist/
+
+# logs
+*.log
+npm-debug.log*
+
+# os
+.DS_Store
+
+# editor
+.vscode/
+.idea/
+*.swp
+
+# env (none should be in this repo, but defence in depth)
+.env
+.env.local
+.env.*.local

@@ -1,0 +1,110 @@
+# Publish @ikirugai/adapt-react and @ikirugai/adapt-server to npm.
+#
+# Triggered by pushing a tag in the form `adapt-v*` (e.g. adapt-v0.1.0).
+# The whole repo gets one tag per release; both packages publish at the
+# same version they have in their respective package.json files at that
+# commit.
+#
+# Why this is safe:
+#  - 2FA is enforced on the npm account, so even if the NPM_TOKEN leaks
+#    a publish still requires the human-on-phone gate (Automation tokens
+#    bypass this — see docs/PUBLISHING.md for that choice).
+#  - --provenance attaches a cryptographic claim that the tarball was
+#    built from THIS commit on THIS workflow. A stolen token can't be
+#    used to publish a malicious version pretending to be us — npm will
+#    show "Provenance" mismatch on the package page.
+#  - We run `npm pack --dry-run` on both packages BEFORE publishing
+#    either. If anything looks wrong, the job fails before any tarball
+#    hits the registry. The downside is that adapt-react publishing
+#    successfully while adapt-server fails to publish still leaves a
+#    half-state — we accept that, since the build-and-pack pre-flight
+#    catches the common failure modes (broken build, missing files).
+#
+# Manual ops (one-time) before the first `git push --tags`:
+#  1. Confirm @ikirugai npm org exists and you have publish rights.
+#  2. Create an npm Automation access token scoped to @ikirugai.
+#  3. Add it to this repo as a GitHub Actions secret called NPM_TOKEN.
+#  4. Confirm 2FA is enabled on your npm account.
+
+name: publish
+
+on:
+  push:
+    tags:
+      - "adapt-v*"
+
+# id-token: write is required for npm provenance.
+# contents: write is required for creating the GitHub Release at the end.
+permissions:
+  contents: write
+  id-token: write
+
+jobs:
+  publish:
+    name: build, smoke-test, and publish both packages
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout the tagged commit
+        uses: actions/checkout@v4
+
+      - name: Set up Node 22 + npm registry auth
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          registry-url: "https://registry.npmjs.org"
+
+      # -----------------------------------------------------------------
+      # Phase 1 — install and build BOTH packages before publishing either.
+      # If either build fails, the workflow exits here and nothing ships.
+      # -----------------------------------------------------------------
+
+      - name: Install + build @ikirugai/adapt-react
+        working-directory: packages/adapt-react
+        run: |
+          npm install --legacy-peer-deps --no-audit --no-fund
+          npm run build
+          npm pack --dry-run
+
+      - name: Install + build @ikirugai/adapt-server
+        working-directory: packages/adapt-server
+        run: |
+          npm install --legacy-peer-deps --no-audit --no-fund
+          npm run build
+          npm pack --dry-run
+
+      # -----------------------------------------------------------------
+      # Phase 2 — publish. Both go up at the same version (whatever's in
+      # each package.json at the tagged commit).
+      # -----------------------------------------------------------------
+
+      - name: Publish @ikirugai/adapt-react
+        working-directory: packages/adapt-react
+        run: npm publish --provenance --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Publish @ikirugai/adapt-server
+        working-directory: packages/adapt-server
+        run: npm publish --provenance --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      # -----------------------------------------------------------------
+      # Phase 3 — record the release on GitHub. `generate_release_notes`
+      # auto-fills the body from the commits since the previous tag.
+      # -----------------------------------------------------------------
+
+      - name: Create GitHub Release for this tag
+        uses: softprops/action-gh-release@v2
+        with:
+          generate_release_notes: true
+          body: |
+            Adaptation ${{ github.ref_name }}
+
+            Published to npm:
+            - https://www.npmjs.com/package/@ikirugai/adapt-react
+            - https://www.npmjs.com/package/@ikirugai/adapt-server
+
+            Both tarballs include npm provenance — you can verify with
+            `npm audit signatures` after installing.

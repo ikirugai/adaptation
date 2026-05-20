@@ -1,0 +1,71 @@
+{
+  "name": "@ikirugai/adapt-react",
+  "version": "0.1.0",
+  "description": "React components for Adaptation — a drop-in Adapt button that lets users reshape any React/Next.js app in natural language.",
+  "license": "MIT",
+  "author": "Ikirugai",
+  "homepage": "https://adapt.ikirugai.com",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ikirugai/adaptation.git",
+    "directory": "packages/adapt-react"
+  },
+  "bugs": "https://github.com/ikirugai/adaptation/issues",
+  "keywords": [
+    "react",
+    "next",
+    "next.js",
+    "ai",
+    "anthropic",
+    "claude",
+    "adaptive",
+    "personalisation",
+    "personalization",
+    "feature-flags",
+    "ux"
+  ],
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsup && node scripts/add-js-extensions.mjs",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "clsx": "^2.1.1",
+    "framer-motion": "^11.11.0",
+    "html2canvas-pro": "^1.5.8",
+    "lucide-react": "^0.460.0",
+    "tailwind-merge": "^2.5.4"
+  },
+  "peerDependencies": {
+    "next": ">=15",
+    "react": ">=18",
+    "react-dom": ">=18"
+  },
+  "devDependencies": {
+    "@types/node": "^22.9.0",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "next": "^15.5.18",
+    "react": "19.0.0-rc-66855b96-20241106",
+    "react-dom": "19.0.0-rc-66855b96-20241106",
+    "tsup": "^8.3.5",
+    "typescript": "^5.6.3"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
