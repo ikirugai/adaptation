@@ -78,17 +78,18 @@ jobs:
       # each package.json at the tagged commit).
       # -----------------------------------------------------------------
 
+      # No NODE_AUTH_TOKEN — npm authenticates via the GitHub OIDC token
+      # because each package has a Trusted Publisher configured on npm
+      # pointing at this exact repo + workflow filename. id-token: write
+      # at the job level (above) is what makes that OIDC token available.
+
       - name: Publish @ikirugai/adapt-react
         working-directory: packages/adapt-react
         run: npm publish --provenance --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Publish @ikirugai/adapt-server
         working-directory: packages/adapt-server
         run: npm publish --provenance --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       # -----------------------------------------------------------------
       # Phase 3 — record the release on GitHub. `generate_release_notes`
