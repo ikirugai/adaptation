@@ -54,6 +54,16 @@ jobs:
           node-version: "22"
           registry-url: "https://registry.npmjs.org"
 
+      # Upgrade npm to a version that fully supports OIDC publishing via
+      # npm Trusted Publishers. Node 22 currently ships npm 10.x, but
+      # Trusted-Publisher OIDC works most reliably on npm 11+ where the
+      # `npm publish --provenance` path correctly negotiates the OIDC
+      # auth claim against the registry.
+      - name: Upgrade npm to latest
+        run: |
+          npm install -g npm@latest
+          npm --version
+
       # -----------------------------------------------------------------
       # Phase 1 — install and build BOTH packages before publishing either.
       # If either build fails, the workflow exits here and nothing ships.
