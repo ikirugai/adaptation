@@ -1,10 +1,14 @@
 # @ikirugai/adapt-server
 
-> Server-side primitives for [Adaptation](https://github.com/ikirugai/adaptivesoftware). `defineSurface()` to declare what's adaptable in your app, route-handler factories for the 13 Adapt API endpoints, a domain-generic patch applier, and a Postgres-backed session helper.
+[![npm](https://img.shields.io/npm/v/@ikirugai/adapt-server.svg)](https://www.npmjs.com/package/@ikirugai/adapt-server) [![Live demo](https://img.shields.io/badge/live-adapt.ikirugai.com-0f766e)](https://adapt.ikirugai.com) [![Source](https://img.shields.io/badge/source-github.com%2Fikirugai%2Fadaptation-24292f)](https://github.com/ikirugai/adaptation)
+
+> Server-side primitives for [Adaptation](https://adapt.ikirugai.com). `defineSurface()` to declare what's adaptable in your app, route-handler factories for the 13 Adapt API endpoints, a domain-generic patch applier, and a Postgres-backed session helper.
 
 ```bash
 npm install @ikirugai/adapt-server @ikirugai/adapt-react
 ```
+
+See it live at [adapt.ikirugai.com](https://adapt.ikirugai.com) — four demo apps wired up exactly the way described below.
 
 ## Quickstart
 
@@ -82,10 +86,9 @@ export default async function Page() {
 
 ## Backend services required
 
-This package is the client-side-of-server primitives. The worker, runner, and Slack-approver services that produce patches and execute hard-lane code edits are separate. Either:
+This package is the client-side-of-server primitives. The worker, runner, and Slack-approver services that produce patches and execute hard-lane code edits are separate, BSL-1.1-licensed engine apps distributed via Docker images / signed contracts.
 
-- Self-host the full stack: clone https://github.com/ikirugai/adaptivesoftware and run `docker compose up`.
-- Use the hosted backend at `api.adaptation.dev` (pricing + signup at adapt.ikirugai.com).
+Until those ship: use the hosted backend at [adapt.ikirugai.com](https://adapt.ikirugai.com), which already runs the engine for four live demo apps (News, Shop, Journal, Console). Pricing + signup land there when ready.
 
 ## Peer dependencies
 

@@ -47,14 +47,18 @@ export function CompareView({ onClose }: { onClose: () => void }) {
         <iframe
           key={`orig-${section}`}
           src={`/${section}?adapted=0`}
-          className="absolute inset-y-0 left-0 border-r border-ink-700 bg-ink-50"
-          style={{ width: `${split}%` }}
+          className="absolute left-0 top-0 border-r border-ink-700 bg-ink-50"
+          // Explicit height: iframes ignore CSS `inset-y-0` in some browsers
+          // and fall back to their intrinsic 150px default. Setting height
+          // explicitly to 100% of the (definite-height) flex-1 parent fixes
+          // the "only the header strip is visible" bug.
+          style={{ width: `${split}%`, height: "100%" }}
         />
         <iframe
           key={`adap-${section}`}
           src={`/${section}`}
-          className="absolute inset-y-0 right-0 bg-ink-50"
-          style={{ width: `${100 - split}%` }}
+          className="absolute right-0 top-0 bg-ink-50"
+          style={{ width: `${100 - split}%`, height: "100%" }}
         />
         <div
           className="pointer-events-none absolute inset-y-0 z-10 -ml-px w-0.5 bg-accent/70"

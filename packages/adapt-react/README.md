@@ -1,10 +1,14 @@
 # @ikirugai/adapt-react
 
-> Drop-in React components for [Adaptation](https://github.com/ikirugai/adaptivesoftware) — a floating "Adapt" button that lets users reshape your app in natural language. Popular changes graduate into defaults for everyone.
+[![npm](https://img.shields.io/npm/v/@ikirugai/adapt-react.svg)](https://www.npmjs.com/package/@ikirugai/adapt-react) [![Live demo](https://img.shields.io/badge/live-adapt.ikirugai.com-0f766e)](https://adapt.ikirugai.com) [![Source](https://img.shields.io/badge/source-github.com%2Fikirugai%2Fadaptation-24292f)](https://github.com/ikirugai/adaptation)
+
+> Drop-in React components for [Adaptation](https://adapt.ikirugai.com) — a floating "Adapt" button that lets users reshape your app in natural language. Popular changes graduate into defaults for everyone.
 
 ```bash
 npm install @ikirugai/adapt-react @ikirugai/adapt-server
 ```
+
+See it live at [adapt.ikirugai.com](https://adapt.ikirugai.com) — four demo apps using these components. Click the Adapt button on any of them.
 
 ## What you get
 
