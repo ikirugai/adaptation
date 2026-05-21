@@ -29,11 +29,14 @@ type Props = {
   snip: SnipResult | null;
   onRequestSnip: () => void;
   onClearSnip: () => void;
+  /** Forwarded to CompareView so non-news surfaces can supply their own
+   *  page list. If omitted, CompareView falls back to news sections. */
+  comparePages?: import("./compare-view").ComparePage[];
 };
 
 type Tab = "cards" | "library" | "bakes";
 
-export function AdaptDrawer({ open, onClose, snip, onRequestSnip, onClearSnip }: Props) {
+export function AdaptDrawer({ open, onClose, snip, onRequestSnip, onClearSnip, comparePages }: Props) {
   const [cards, setCards] = useState<CardRow[]>([]);
   const [text, setText] = useState("");
   const [sending, setSending] = useState(false);
@@ -232,7 +235,7 @@ export function AdaptDrawer({ open, onClose, snip, onRequestSnip, onClearSnip }:
           </motion.aside>
         )}
       </AnimatePresence>
-      {comparing && <CompareView onClose={() => setComparing(false)} />}
+      {comparing && <CompareView onClose={() => setComparing(false)} pages={comparePages} />}
     </>
   );
 }

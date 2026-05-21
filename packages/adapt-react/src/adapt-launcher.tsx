@@ -4,9 +4,21 @@ import { useEffect, useState } from "react";
 import { Sparkles } from "lucide-react";
 import { AdaptDrawer } from "./adapt-drawer";
 import { SnipOverlay, type SnipResult } from "./snip-overlay";
+import type { ComparePage } from "./compare-view";
 import { cn } from "./cn";
 
-export function AdaptLauncher({ sessionId }: { sessionId: string }) {
+export function AdaptLauncher({
+  sessionId,
+  comparePages
+}: {
+  sessionId: string;
+  /**
+   * Pages the user can flip between in the Compare view. Defaults to the
+   * three news sections (uk/world/sport) — pass your surface's own pages
+   * so Compare works on non-news apps.
+   */
+  comparePages?: ComparePage[];
+}) {
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState(0);
   const [snipping, setSnipping] = useState(false);
@@ -73,6 +85,7 @@ export function AdaptLauncher({ sessionId }: { sessionId: string }) {
         snip={snip}
         onRequestSnip={requestSnip}
         onClearSnip={() => setSnip(null)}
+        comparePages={comparePages}
       />
       {snipping && <SnipOverlay onSnip={onSnipped} onCancel={cancelSnip} />}
     </>
