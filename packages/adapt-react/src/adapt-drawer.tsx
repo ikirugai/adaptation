@@ -155,7 +155,7 @@ export function AdaptDrawer({ open, onClose, snip, onRequestSnip, onClearSnip, c
                   value={text}
                   onChange={e => setText(e.target.value)}
                   onKeyDown={e => { if (e.key === "Enter" && (e.metaKey || e.ctrlKey)) submit(); }}
-                  placeholder="What should change? e.g. hide royal family stories"
+                  placeholder="What should change?"
                   rows={2}
                   className="flex-1 resize-none rounded-lg border border-ink-200 bg-ink-50 px-3 py-2 text-sm outline-none focus:border-ink-400 dark:border-ink-800 dark:bg-ink-900"
                 />

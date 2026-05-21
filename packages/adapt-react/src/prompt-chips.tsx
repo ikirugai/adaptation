@@ -1,18 +1,28 @@
 "use client";
 
-const CHIPS: { label: string; prompt: string }[] = [
-  { label: "Compact layout",    prompt: "Switch to compact layout — small thumbnail to the left of each headline." },
-  { label: "Dark mode",         prompt: "Use a dark colour scheme." },
-  { label: "Larger text",       prompt: "Make headlines and summaries larger." },
-  { label: "Hide football",     prompt: "Hide all stories that mention football." },
-  { label: "Date next to title",prompt: "Show the full publish date inline next to each headline." },
-  { label: "No images",         prompt: "Hide every article thumbnail." }
+export type PromptChip = { label: string; prompt: string };
+
+// Generic across surfaces — these adaptations work whether you're on
+// a news site, a shop, a blog or a dashboard. Consumers can override
+// by passing the `chips` prop with surface-appropriate suggestions
+// derived from their defineSurface() declaration.
+const DEFAULT_CHIPS: PromptChip[] = [
+  { label: "Dark mode",      prompt: "Use a dark colour scheme." },
+  { label: "Larger text",    prompt: "Make text noticeably larger." },
+  { label: "Hide images",    prompt: "Hide every image on the page." },
+  { label: "Compact layout", prompt: "Switch to a compact, denser layout." }
 ];
 
-export function PromptChips({ onPick }: { onPick: (text: string) => void }) {
+export function PromptChips({
+  onPick,
+  chips = DEFAULT_CHIPS
+}: {
+  onPick: (text: string) => void;
+  chips?: PromptChip[];
+}) {
   return (
     <div className="-mx-1 flex flex-wrap gap-1.5 pb-3">
-      {CHIPS.map(c => (
+      {chips.map(c => (
         <button
           key={c.label}
           onClick={() => onPick(c.prompt)}
