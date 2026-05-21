@@ -1,6 +1,6 @@
 {
   "name": "@ikirugai/adapt-react",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "React components for Adaptation — a drop-in Adapt button that lets users reshape any React/Next.js app in natural language.",
   "license": "MIT",
   "author": "Ikirugai",

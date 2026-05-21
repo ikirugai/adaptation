@@ -1,6 +1,6 @@
 {
   "name": "@ikirugai/adapt-server",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Server-side primitives for Adaptation — defineSurface, session helpers, route-handler factories, DSL, generic patch applier.",
   "license": "MIT",
   "author": "Ikirugai",

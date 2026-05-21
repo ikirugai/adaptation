@@ -7,8 +7,13 @@ declare global {
 
 export function pool(): Pool {
   if (!global.__pgPool) {
+    // ADAPT_DATABASE_URL lets a consumer point Adaptation at a different
+    // database than the app's primary one — useful when integrating
+    // Adaptation into an existing app whose DATABASE_URL is already taken
+    // by its own ORM. Falls back to DATABASE_URL for standalone apps.
+    const connectionString = process.env.ADAPT_DATABASE_URL || process.env.DATABASE_URL;
     global.__pgPool = new Pool({
-      connectionString: process.env.DATABASE_URL,
+      connectionString,
       max: 10,
       idleTimeoutMillis: 30_000
     });
