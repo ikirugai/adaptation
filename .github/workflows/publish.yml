@@ -51,17 +51,20 @@ jobs:
       - name: Set up Node 22 + npm registry auth
         uses: actions/setup-node@v4
         with:
-          node-version: "22"
+          # Pinned to 22.20 — Node 22.22.2 shipped with a broken bundled
+          # npm (libnpmfund crashes on missing promise-retry on every
+          # `npm install -g …`), so any step that touches the global npm
+          # fails. Bump this when a known-good 22.x patch lands.
+          node-version: "22.20"
           registry-url: "https://registry.npmjs.org"
 
-      # Upgrade npm to a version that fully supports OIDC publishing via
-      # npm Trusted Publishers. Node 22 currently ships npm 10.x, but
-      # Trusted-Publisher OIDC works most reliably on npm 11+ where the
-      # `npm publish --provenance` path correctly negotiates the OIDC
-      # auth claim against the registry.
-      - name: Upgrade npm to latest
+      # Use corepack to install a known-good npm — bypasses any bundled-
+      # npm bug in the Node release. Needs npm 11+ so Trusted-Publisher
+      # OIDC works reliably.
+      - name: Install npm 11.5.1 via corepack
         run: |
-          npm install -g npm@latest
+          corepack enable
+          corepack prepare npm@11.5.1 --activate
           npm --version
 
       # -----------------------------------------------------------------
