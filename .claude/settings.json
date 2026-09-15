@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Read", "Glob", "Grep",
+      "Bash(git status:*)", "Bash(git diff:*)", "Bash(git log:*)", "Bash(git branch:*)",
+      "Bash(npm run:*)", "Bash(npm test:*)", "Bash(npm ci:*)", "Bash(npm install:*)",
+      "Bash(gh run list:*)", "Bash(gh run watch:*)", "Bash(gh pr list:*)"
+    ],
+    "deny": [
+      "Read(./.env)", "Read(./.env.*)", "Read(./**/.env)", "Read(./**/.env.*)",
+      "Read(./**/*.jks)", "Read(./**/*.keystore)", "Read(./**/*.p12)",
+      "Bash(gh release create:*)", "Bash(docker compose up:*)"
+    ]
+  }
+}
